@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ico1.ico</ApplicationIcon>
+    <ApplicationIcon>src\ico.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -56,15 +56,15 @@
   <PropertyGroup>
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\..\..\Sec\IPModifier\System.Data.SQLite.dll</HintPath>
-    </Reference>
     <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -77,60 +77,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="class\RWini.cs" />
+    <Compile Include="form\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
+    <Compile Include="form\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="AddConfigDlg.cs">
+    <Compile Include="form\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AddConfigDlg.Designer.cs">
-      <DependentUpon>AddConfigDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CDatabase.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="ConfigMannager.cs" />
-    <Compile Include="ConfigMannagerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ConfigMannagerForm.Designer.cs">
-      <DependentUpon>ConfigMannagerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="form\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MdbMannager.cs" />
-    <Compile Include="ModifyConfigDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModifyConfigDlg.Designer.cs">
-      <DependentUpon>ModifyConfigDlg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Network.cs" />
-    <Compile Include="NetworkAdapter.cs" />
-    <Compile Include="NetworkAdapterMannager.cs" />
-    <Compile Include="nic.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="class\Network.cs" />
+    <Compile Include="class\NetworkAdapter.cs" />
+    <Compile Include="class\NetworkAdapterMannager.cs" />
+    <Compile Include="class\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="form\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AddConfigDlg.resx">
-      <DependentUpon>AddConfigDlg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ConfigMannagerForm.resx">
-      <DependentUpon>ConfigMannagerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="form\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModifyConfigDlg.resx">
-      <DependentUpon>ModifyConfigDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,6 +109,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -156,22 +126,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ico.ico" />
-    <Content Include="ico1.ico" />
-    <Content Include="src\About.ico" />
-    <Content Include="src\Break.ico" />
-    <Content Include="src\Check.ico" />
-    <Content Include="src\Close.ico" />
-    <Content Include="src\Copy.ico" />
-    <Content Include="src\Cut.ico" />
-    <Content Include="src\ico.ico" />
-    <Content Include="src\ico.png" />
-    <Content Include="src\New.ico" />
-    <Content Include="src\Open.ico" />
-    <Content Include="src\Paste.ico" />
-    <Content Include="src\Save.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5.2 %28x86 和 x64%29</ProductName>
@@ -182,6 +136,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="src\about.ico" />
+    <None Include="src\exit.ico" />
+    <None Include="src\ico.ico" />
+    <None Include="src\log.ico" />
+    <None Include="src\settings.ico" />
+    <None Include="src\tray.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
