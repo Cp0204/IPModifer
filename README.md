@@ -11,10 +11,9 @@
 |---doc 文档
 |    |--- main.png 主界面
 |    |--- configmannager.png 配置方案管理界面
-|    |--- IPModifer.mdl Rational rose文件
 |
 |---bin 编译好的项目
-|    |---config.mdb 数据库
+|    |---config.ini 方案数据
 |    |---IPModifer.exe 主程序
 ```
 ## 主界面
