@@ -61,58 +61,55 @@ namespace IPModifer {
                 NetworkAdapter ntk = new NetworkAdapter();
                 ntk.Id = adapter.Id;
                 ntk.Name = adapter.Name;
+                Console.WriteLine("网卡ID:" + ntk.Id);
 
                //获取以太网卡网络接口信息
                IPInterfaceProperties ip = adapter.GetIPProperties();
-               //获取单播地址集
 
+               //获取单播地址集
                UnicastIPAddressInformationCollection ipCollection = ip.UnicastAddresses;
-               foreach (UnicastIPAddressInformation ipadd in ipCollection)
-               {
+               foreach (UnicastIPAddressInformation ipadd in ipCollection){
                     //InterNetwork    IPV4地址      InterNetworkV6        IPV6地址
-                    //Max            MAX 位址
-                    if (ipadd.Address.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                            //判断是否为ipv4
-                            ntk.Ip = ipadd.Address.ToString();//获取ip
-                            ntk.Mask = ipadd.IPv4Mask.ToString();
-                     }
-                }
-                //获取子网掩码
-                if (ip.UnicastAddresses.Count > 0)
-                {
-                    Console.WriteLine("IP地址:" + ip.UnicastAddresses[0].Address.ToString());
-                    Console.WriteLine("子网掩码:" + ip.UnicastAddresses[0].IPv4Mask.ToString());
-                    //tbMask.Text = ip.UnicastAddresses[0].IPv4Mask.ToString();
+                    if (ipadd.Address.AddressFamily == AddressFamily.InterNetwork){
+                        //判断是否为ipv4
+                        ntk.Ip = ipadd.Address.ToString();//获取ip
+                        ntk.Mask = ipadd.IPv4Mask.ToString();
+                        Console.WriteLine("v4-IP地址:" + ntk.Ip);
+                        Console.WriteLine("v4-子网掩码:" + ntk.Mask);
+                    }
+                    if (ipadd.Address.AddressFamily == AddressFamily.InterNetworkV6){
+                        //判断是否为ipv6
+                        ntk.Ipv6 = ipadd.Address.ToString();//获取ip
+                        ntk.PrefixLength = ipadd.PrefixLength.ToString();
+                        Console.WriteLine("v6-IP地址:" + ntk.Ipv6);
+                        Console.WriteLine("v6-子网前缀长度:" + ntk.PrefixLength);
+                    }
                 }
                 //获取默认网关
-                if (ip.GatewayAddresses.Count > 0)
-                {
+                if (ip.GatewayAddresses.Count > 0){
                     Console.WriteLine("默认网关:" + ip.GatewayAddresses[0].Address.ToString());   //默认网关
                     ntk.Gateway = ip.GatewayAddresses[0].Address.ToString();
                 }
                 //首选DNS与备用DNS
                 int DnsCount = ip.DnsAddresses.Count;
                 Console.WriteLine("DNS服务器地址：");
-                if (DnsCount > 0)
-                {
+                if (DnsCount > 0){
                     //其中第一个为首选DNS，第二个为备用的，余下的为所有DNS为DNS备用，按使用顺序排列
-                    for (int i = 0; i < DnsCount; i++)
-                    {
-                        Console.WriteLine("i=" + i + ":" + ip.DnsAddresses[i].ToString());
-                        if (i == 0)
-                        {
-                            ntk.Dns1 = ip.DnsAddresses[0].ToString();
-                        }
-
-                        if (i == 1)
-                        {
-                            ntk.Dns1 = ip.DnsAddresses[1].ToString();
+                    for (int i = 0; i < DnsCount; i++){
+                        Console.WriteLine("DNS" + i + ": " + ip.DnsAddresses[i].ToString());
+                        //取ipv4
+                        if (ip.DnsAddresses[i].ToString().IndexOf('.') > 0){
+                            if(ntk.Dns1 == null) {
+                                ntk.Dns1 = ip.DnsAddresses[i].ToString();
+                            } else {
+                                ntk.Dns2 = ip.DnsAddresses[i].ToString();
+                            }
                         }
                     }
 
                 }
                 ntks.Add(ntk);
+                Console.WriteLine("=========\n");
             }
         }
     

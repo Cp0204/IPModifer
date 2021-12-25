@@ -98,7 +98,7 @@ namespace IPModifer {
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/c0ny1/IPModifer");
+            System.Diagnostics.Process.Start("https://github.com/Cp0204/IPModifer");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

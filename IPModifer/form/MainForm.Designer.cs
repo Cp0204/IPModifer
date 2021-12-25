@@ -35,9 +35,9 @@
             this.btRefresh = new System.Windows.Forms.Button();
             this.tbSave = new System.Windows.Forms.Button();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.tsbTray = new System.Windows.Forms.ToolStripButton();
-            this.toolCheckNet = new System.Windows.Forms.ToolStripButton();
             this.tsbLog = new System.Windows.Forms.ToolStripButton();
+            this.toolCheckNet = new System.Windows.Forms.ToolStripButton();
+            this.tsbTray = new System.Windows.Forms.ToolStripButton();
             this.toolAbout = new System.Windows.Forms.ToolStripButton();
             this.label8 = new System.Windows.Forms.Label();
             this.tbNetworkInterfaceID = new System.Windows.Forms.TextBox();
@@ -67,7 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 35);
+            this.label1.Location = new System.Drawing.Point(7, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
@@ -76,7 +76,7 @@
             // cbNetworkInterface
             // 
             this.cbNetworkInterface.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbNetworkInterface.Location = new System.Drawing.Point(62, 31);
+            this.cbNetworkInterface.Location = new System.Drawing.Point(63, 31);
             this.cbNetworkInterface.Name = "cbNetworkInterface";
             this.cbNetworkInterface.Size = new System.Drawing.Size(292, 20);
             this.cbNetworkInterface.TabIndex = 1;
@@ -84,7 +84,7 @@
             // 
             // btRefresh
             // 
-            this.btRefresh.Location = new System.Drawing.Point(360, 30);
+            this.btRefresh.Location = new System.Drawing.Point(361, 30);
             this.btRefresh.Name = "btRefresh";
             this.btRefresh.Size = new System.Drawing.Size(47, 22);
             this.btRefresh.TabIndex = 2;
@@ -94,7 +94,7 @@
             // 
             // tbSave
             // 
-            this.tbSave.Location = new System.Drawing.Point(360, 57);
+            this.tbSave.Location = new System.Drawing.Point(361, 57);
             this.tbSave.Name = "tbSave";
             this.tbSave.Size = new System.Drawing.Size(47, 48);
             this.tbSave.TabIndex = 3;
@@ -116,26 +116,6 @@
             this.toolStrip.TabIndex = 19;
             this.toolStrip.Text = "toolStrip";
             // 
-            // tsbTray
-            // 
-            this.tsbTray.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbTray.Image = ((System.Drawing.Image)(resources.GetObject("tsbTray.Image")));
-            this.tsbTray.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbTray.Name = "tsbTray";
-            this.tsbTray.Size = new System.Drawing.Size(23, 22);
-            this.tsbTray.Text = "缩至托盘";
-            this.tsbTray.Click += new System.EventHandler(this.tsbTray_Click);
-            // 
-            // toolCheckNet
-            // 
-            this.toolCheckNet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolCheckNet.Image = ((System.Drawing.Image)(resources.GetObject("toolCheckNet.Image")));
-            this.toolCheckNet.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolCheckNet.Name = "toolCheckNet";
-            this.toolCheckNet.Size = new System.Drawing.Size(23, 22);
-            this.toolCheckNet.Text = "toolStripButton1";
-            this.toolCheckNet.Click += new System.EventHandler(this.toolCheckNet_Click);
-            // 
             // tsbLog
             // 
             this.tsbLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -146,6 +126,26 @@
             this.tsbLog.Text = "toolStripButton3";
             this.tsbLog.ToolTipText = "显示日志";
             this.tsbLog.Click += new System.EventHandler(this.tsbLog_Click);
+            // 
+            // toolCheckNet
+            // 
+            this.toolCheckNet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolCheckNet.Image = ((System.Drawing.Image)(resources.GetObject("toolCheckNet.Image")));
+            this.toolCheckNet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolCheckNet.Name = "toolCheckNet";
+            this.toolCheckNet.Size = new System.Drawing.Size(23, 22);
+            this.toolCheckNet.Text = "测试互联网";
+            this.toolCheckNet.Click += new System.EventHandler(this.toolCheckNet_Click);
+            // 
+            // tsbTray
+            // 
+            this.tsbTray.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbTray.Image = ((System.Drawing.Image)(resources.GetObject("tsbTray.Image")));
+            this.tsbTray.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbTray.Name = "tsbTray";
+            this.tsbTray.Size = new System.Drawing.Size(23, 22);
+            this.tsbTray.Text = "缩至托盘";
+            this.tsbTray.Click += new System.EventHandler(this.tsbTray_Click);
             // 
             // toolAbout
             // 
@@ -160,7 +160,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 61);
+            this.label8.Location = new System.Drawing.Point(8, 61);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(53, 12);
             this.label8.TabIndex = 20;
@@ -168,7 +168,7 @@
             // 
             // tbNetworkInterfaceID
             // 
-            this.tbNetworkInterfaceID.Location = new System.Drawing.Point(62, 57);
+            this.tbNetworkInterfaceID.Location = new System.Drawing.Point(63, 57);
             this.tbNetworkInterfaceID.Name = "tbNetworkInterfaceID";
             this.tbNetworkInterfaceID.ReadOnly = true;
             this.tbNetworkInterfaceID.Size = new System.Drawing.Size(292, 21);
@@ -340,7 +340,7 @@
             // 
             // tbName
             // 
-            this.tbName.Location = new System.Drawing.Point(62, 84);
+            this.tbName.Location = new System.Drawing.Point(63, 84);
             this.tbName.Name = "tbName";
             this.tbName.ReadOnly = true;
             this.tbName.Size = new System.Drawing.Size(292, 21);
@@ -349,7 +349,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(7, 87);
+            this.label7.Location = new System.Drawing.Point(8, 87);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 12);
             this.label7.TabIndex = 38;
@@ -371,11 +371,12 @@
             this.Controls.Add(this.cbNetworkInterface);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "IPModifer v2.0";
+            this.Text = "IPModifer";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

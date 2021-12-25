@@ -5,11 +5,16 @@ namespace IPModifer {
         private String nic;//网卡
         private String name;//网络名称
         private String id;//网卡编号
+        //ipv4
         private String ip;//ip地址
         private String mask;//子网掩码
         private String gateway;//网关
         private String dns1;//首选DNS
         private String dns2;//备选DNS
+        //IPv6
+        private String ipv6;//ipv6地址
+        private String prefixlength;//子网前缀长度
+
 
 
         public string Nic {
@@ -92,6 +97,24 @@ namespace IPModifer {
             }
         }
 
+        public string Ipv6 {
+            get {
+                return ipv6;
+            }
+
+            set {
+                ipv6 = value;
+            }
+        }
+        public string PrefixLength {
+            get {
+                return prefixlength;
+            }
+
+            set {
+                prefixlength = value;
+            }
+        }
 
     }
 }

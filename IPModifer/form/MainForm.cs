@@ -23,6 +23,12 @@ namespace IPModifer {
         private void MainForm_Load(object sender, EventArgs e) {
             notifyIcon.Icon = this.Icon;
             notifyIcon.Visible = false;
+            Text = Text + " v" + Application.ProductVersion.ToString();
+            if(IsAdministrator()) {
+                tbLog.AppendText(System.DateTime.Now + " 当前：管理员权限。\r\n");
+            } else {
+                tbLog.AppendText(System.DateTime.Now + " 当前：非管理员权限。\r\n");
+            }
         }
 
         private void cbNetworkInterface_SelectedIndexChanged(object sender, EventArgs e) {
@@ -46,16 +52,12 @@ namespace IPModifer {
             string[] gateway = new string[] { tbNewGateway.Text };
             string[] dns = new string[] { tbNewDNS1.Text, tbNewDNS2.Text };
 
-            if(IsAdministrator()) {
-                tbLog.AppendText(System.DateTime.Now + " 当前：管理员权限。\r\n");
-            } else {
-                tbLog.AppendText(System.DateTime.Now + " 当前：非管理员权限。\r\n");
-            }
             if(ip[0] == "") {
-                tbLog.AppendText(System.DateTime.Now + " 设置自动获取IP...\r\n");
+                tbLog.AppendText(System.DateTime.Now + " 设置为自动获取IP...\r\n");
                 nmg.setAutoNetwork(id);
             } else {
                 //设置ip
+                tbLog.AppendText(System.DateTime.Now + " 设置为方案[" + cbFanAn.Text + "]...\r\n");
                 nmg.setNetwork(id, ip, mask, gateway, dns);
             }
         }
@@ -63,13 +65,14 @@ namespace IPModifer {
         private void cbFanAn_SelectedIndexChanged(object sender, EventArgs e) {
             string name = cbFanAn.Text;
 
-            if(name == "自动获取") {
+            if(name == "*自动获取") {
                 tbNewIp.Text = tbNewGateway.Text = tbNewMask.Text = tbNewDNS1.Text = tbNewDNS2.Text = "";
                 tbNewIp.Enabled = tbNewGateway.Enabled = tbNewMask.Enabled = tbNewDNS1.Enabled = tbNewDNS2.Enabled = false;
 
-            } else if(name == "当前设置") {
+            } else if(name == "*当前设置") {
                 tbNewIp.Enabled = tbNewGateway.Enabled = tbNewMask.Enabled = tbNewDNS1.Enabled = tbNewDNS2.Enabled = true;
                 // 显示Network信息到界面
+                fullcbNetworkInterface();
                 Network ntk = nmg.getNICInfoByCaption(cbNetworkInterface.Text);
                 tbNewIp.Text = ntk.Ip;
                 tbNewGateway.Text = ntk.Gateway;
@@ -94,8 +97,8 @@ namespace IPModifer {
         }
 
         private void AddFanAn_Click(object sender, EventArgs e) {
-            if(cbFanAn.Text == "") {
-                MessageBox.Show("方案名不得为空！", "方案管理");
+            if(cbFanAn.Text == "" || cbFanAn.Text == "*当前设置" || cbFanAn.Text == "*自动获取") {
+                MessageBox.Show("方案名非法！", "方案管理");
                 return;
             }
             Network info = new Network {
@@ -116,10 +119,14 @@ namespace IPModifer {
             }
             AllFanAn.Add(info);
             cbFanAn.Items.Add(cbFanAn.Text);
+            cbFanAn.SelectedIndex = cbFanAn.Items.Count-1;
             SaveConfig();
         }
 
         private void DelFanAn_Click(object sender, EventArgs e) {
+            if(cbFanAn.Text == "" || cbFanAn.Text == "*当前设置" || cbFanAn.Text == "*自动获取") {
+                return;
+            }
             if(MessageBox.Show("是否删除方案[" + cbFanAn.Text + "]？", "方案管理", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK) {
                 foreach(var info in AllFanAn) {
                     if(info.Name == cbFanAn.Text) {
@@ -154,11 +161,11 @@ namespace IPModifer {
 
         private void toolCheckNet_Click(object sender, EventArgs e) {
             if(checkNetConnect()) {
-                MessageBox.Show("联通", "测试网络");
-                tbLog.AppendText(System.DateTime.Now + " 测试网络：联通\r\n");
+                MessageBox.Show("互联网已联通", "测试互联网");
+                tbLog.AppendText(System.DateTime.Now + " 测试互联网：已联通\r\n");
             } else {
-                MessageBox.Show("失败", "测试网络");
-                tbLog.AppendText(System.DateTime.Now + " 测试网络：联通\r\n");
+                MessageBox.Show("互联网未联通", "测试互联网");
+                tbLog.AppendText(System.DateTime.Now + " 测试互联网：未联通\r\n");
             }
         }
 
@@ -170,7 +177,7 @@ namespace IPModifer {
             this.Visible = false;
             this.ShowInTaskbar = false;
             notifyIcon.Visible = true;
-            this.notifyIcon.ShowBalloonTip(3, "提示", "软件在后台运行！如要打开，请点击图标", ToolTipIcon.Info);
+            this.notifyIcon.ShowBalloonTip(3, "提示", "软件在后台运行！如要打开，请双击图标。", ToolTipIcon.Info);
         }
 
         private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e) {
@@ -192,8 +199,8 @@ namespace IPModifer {
 
         private void fullcbFanAn() {
             cbFanAn.Items.Clear();
-            cbFanAn.Items.Add("自动获取");
-            cbFanAn.Items.Add("当前设置");
+            cbFanAn.Items.Add("*自动获取");
+            cbFanAn.Items.Add("*当前设置");
             string[] AllFanAnName = ini.GetSectionNames();
             foreach(string name in AllFanAnName) {
                 cbFanAn.Items.Add(name.ToString());
