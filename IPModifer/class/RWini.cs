@@ -37,13 +37,13 @@ namespace IPModifer {
         /// <returns></returns>
         public string IniReadValue(string Section, string Key) {
             StringBuilder temp = new StringBuilder(255);
-            int i = GetPrivateProfileString(Section, Key, "", temp, 255, this.path);
+            GetPrivateProfileString(Section, Key, "", temp, 255, this.path);
             return temp.ToString();
         }
 
-        public byte[] IniReadValues(string section, string key) {
+        public byte[] IniReadValues(string Section, string key) {
             byte[] temp = new byte[255];
-            int i = GetPrivateProfileString(section, key, "", temp, 255, this.path);
+            GetPrivateProfileString(Section, key, "", temp, 255, this.path);
             return temp;
         }
 

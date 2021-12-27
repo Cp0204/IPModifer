@@ -37,6 +37,7 @@
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.tsbLog = new System.Windows.Forms.ToolStripButton();
             this.toolCheckNet = new System.Windows.Forms.ToolStripButton();
+            this.toolCheckGateway = new System.Windows.Forms.ToolStripButton();
             this.tsbTray = new System.Windows.Forms.ToolStripButton();
             this.toolAbout = new System.Windows.Forms.ToolStripButton();
             this.label8 = new System.Windows.Forms.Label();
@@ -108,6 +109,7 @@
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbLog,
             this.toolCheckNet,
+            this.toolCheckGateway,
             this.tsbTray,
             this.toolAbout});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
@@ -134,8 +136,18 @@
             this.toolCheckNet.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolCheckNet.Name = "toolCheckNet";
             this.toolCheckNet.Size = new System.Drawing.Size(23, 22);
-            this.toolCheckNet.Text = "测试互联网";
+            this.toolCheckNet.Text = "测试互联网联通";
             this.toolCheckNet.Click += new System.EventHandler(this.toolCheckNet_Click);
+            // 
+            // toolCheckGateway
+            // 
+            this.toolCheckGateway.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolCheckGateway.Image = ((System.Drawing.Image)(resources.GetObject("toolCheckGateway.Image")));
+            this.toolCheckGateway.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolCheckGateway.Name = "toolCheckGateway";
+            this.toolCheckGateway.Size = new System.Drawing.Size(23, 22);
+            this.toolCheckGateway.Text = "测试网关联通";
+            this.toolCheckGateway.Click += new System.EventHandler(this.toolCheckGateway_Click);
             // 
             // tsbTray
             // 
@@ -154,7 +166,7 @@
             this.toolAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAbout.Name = "toolAbout";
             this.toolAbout.Size = new System.Drawing.Size(23, 22);
-            this.toolAbout.Text = "关于程序";
+            this.toolAbout.Text = "关于";
             this.toolAbout.Click += new System.EventHandler(this.toolAbout_Click);
             // 
             // label8
@@ -335,7 +347,6 @@
             // 
             // notifyIcon
             // 
-            this.notifyIcon.Text = "托盘";
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
             // tbName
@@ -377,6 +388,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IPModifer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
@@ -418,6 +430,7 @@
         private System.Windows.Forms.Button AddFanAn;
         private System.Windows.Forms.Button DelFanAn;
         private System.Windows.Forms.ToolStripButton toolCheckNet;
+        private System.Windows.Forms.ToolStripButton toolCheckGateway;
     }
 }
 

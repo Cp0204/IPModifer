@@ -10,12 +10,15 @@ namespace IPModifer {
         public static string iniPath = apppath + "\\config.ini";
         INIFile ini = new INIFile(iniPath);
         public List<Network> AllFanAn = new List<Network>();
+        public static string appConfigName = Application.ProductName + "Config";
+        public string currentNIID;
 
         NetworkAdapterMannager nmg;
 
         public MainForm() {
             nmg = new NetworkAdapterMannager();
             InitializeComponent();
+            currentNIID = ini.IniReadValue(appConfigName, "niid");
             fullcbFanAn();
             fullcbNetworkInterface();
         }
@@ -23,6 +26,7 @@ namespace IPModifer {
         private void MainForm_Load(object sender, EventArgs e) {
             notifyIcon.Icon = this.Icon;
             notifyIcon.Visible = false;
+            notifyIcon.Text = Application.ProductName;
             Text = Text + " v" + Application.ProductVersion.ToString();
             if(IsAdministrator()) {
                 tbLog.AppendText(System.DateTime.Now + " 当前：管理员权限。\r\n");
@@ -33,20 +37,22 @@ namespace IPModifer {
 
         private void cbNetworkInterface_SelectedIndexChanged(object sender, EventArgs e) {
             Network ntk = nmg.getNICInfoByCaption(cbNetworkInterface.Text);
-            tbNetworkInterfaceID.Text = ntk.Id;
+            tbNetworkInterfaceID.Text = currentNIID = ntk.Id;
             tbName.Text = ntk.Name;
+
             // 切换到当前设置
             cbFanAn.SelectedIndex = 1;
+            cbFanAn_SelectedIndexChanged(sender, e);
         }
 
         private void btRefresh_Click(object sender, EventArgs e) {
+            nmg.Refresh();
             fullcbFanAn();
             fullcbNetworkInterface();
             tbLog.AppendText(System.DateTime.Now + " 刷新完成...\r\n");
         }
 
         private void tbSave_Click(object sender, EventArgs e) {
-            string id = nmg.AllNIC1[cbNetworkInterface.Text];
             string[] ip = new string[] { tbNewIp.Text };
             string[] mask = new string[] { tbNewMask.Text };
             string[] gateway = new string[] { tbNewGateway.Text };
@@ -54,11 +60,11 @@ namespace IPModifer {
 
             if(ip[0] == "") {
                 tbLog.AppendText(System.DateTime.Now + " 设置为自动获取IP...\r\n");
-                nmg.setAutoNetwork(id);
+                nmg.setAutoNetwork(tbNetworkInterfaceID.Text);
             } else {
                 //设置ip
                 tbLog.AppendText(System.DateTime.Now + " 设置为方案[" + cbFanAn.Text + "]...\r\n");
-                nmg.setNetwork(id, ip, mask, gateway, dns);
+                nmg.setNetwork(tbNetworkInterfaceID.Text, ip, mask, gateway, dns);
             }
         }
 
@@ -72,7 +78,6 @@ namespace IPModifer {
             } else if(name == "*当前设置") {
                 tbNewIp.Enabled = tbNewGateway.Enabled = tbNewMask.Enabled = tbNewDNS1.Enabled = tbNewDNS2.Enabled = true;
                 // 显示Network信息到界面
-                fullcbNetworkInterface();
                 Network ntk = nmg.getNICInfoByCaption(cbNetworkInterface.Text);
                 tbNewIp.Text = ntk.Ip;
                 tbNewGateway.Text = ntk.Gateway;
@@ -97,7 +102,7 @@ namespace IPModifer {
         }
 
         private void AddFanAn_Click(object sender, EventArgs e) {
-            if(cbFanAn.Text == "" || cbFanAn.Text == "*当前设置" || cbFanAn.Text == "*自动获取") {
+            if(cbFanAn.Text == "" || cbFanAn.Text == appConfigName || cbFanAn.Text == "*当前设置" || cbFanAn.Text == "*自动获取") {
                 MessageBox.Show("方案名非法！", "方案管理");
                 return;
             }
@@ -119,7 +124,7 @@ namespace IPModifer {
             }
             AllFanAn.Add(info);
             cbFanAn.Items.Add(cbFanAn.Text);
-            cbFanAn.SelectedIndex = cbFanAn.Items.Count-1;
+            cbFanAn.SelectedIndex = cbFanAn.Items.Count - 1;
             SaveConfig();
         }
 
@@ -169,6 +174,18 @@ namespace IPModifer {
             }
         }
 
+        private void toolCheckGateway_Click(object sender, EventArgs e) {
+            if(checkNetConnect(tbNewGateway.Text)) {
+                if(MessageBox.Show("网关已联通\n是否立即打开 http://" + tbNewGateway.Text + " ？", "测试网关", MessageBoxButtons.YesNo ,MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes) {
+                    System.Diagnostics.Process.Start("http://"+ tbNewGateway.Text);
+                }
+                tbLog.AppendText(System.DateTime.Now + " 测试网关：已联通\r\n");
+            } else {
+                MessageBox.Show("网关网未联通", "测试网关");
+                tbLog.AppendText(System.DateTime.Now + " 测试网关：未联通\r\n");
+            }
+        }
+
         /// ///////////////////////////////////////////////////////////////////////////////////////////////
         /// 托盘
         /// //////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,6 +220,8 @@ namespace IPModifer {
             cbFanAn.Items.Add("*当前设置");
             string[] AllFanAnName = ini.GetSectionNames();
             foreach(string name in AllFanAnName) {
+                if(name == appConfigName)
+                    continue;
                 cbFanAn.Items.Add(name.ToString());
                 Network info = new Network {
                     Name = name,
@@ -218,12 +237,17 @@ namespace IPModifer {
 
         public void fullcbNetworkInterface() {
             cbNetworkInterface.Items.Clear();
-            nmg.Refresh();
+            int i = 0;
             foreach(var item in nmg.AllNIC1) {
                 Console.WriteLine(item.Key + ':' + item.Value);
                 cbNetworkInterface.Items.Add(item.Key);
+                if(item.Value == currentNIID) {
+                    cbNetworkInterface.SelectedIndex = i;
+                }
+                i++;
             }
-            cbNetworkInterface.SelectedIndex = 0;
+            if(cbNetworkInterface.SelectedIndex < 0)
+                cbNetworkInterface.SelectedIndex = 0;
         }
 
         public static bool IsAdministrator() {
@@ -248,6 +272,9 @@ namespace IPModifer {
             }
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
+            ini.IniWriteValue(appConfigName, "niid", tbNetworkInterfaceID.Text);
+        }
 
     }
 }
