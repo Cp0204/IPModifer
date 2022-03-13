@@ -61,6 +61,7 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tbName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.toolStrip.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -431,6 +432,7 @@
         private System.Windows.Forms.Button DelFanAn;
         private System.Windows.Forms.ToolStripButton toolCheckNet;
         private System.Windows.Forms.ToolStripButton toolCheckGateway;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
 

@@ -39,6 +39,7 @@ namespace IPModifer {
             Network ntk = nmg.getNICInfoByCaption(cbNetworkInterface.Text);
             tbNetworkInterfaceID.Text = currentNIID = ntk.Id;
             tbName.Text = ntk.Name;
+            toolTip.SetToolTip(this.cbNetworkInterface, ntk.Name);
 
             // 切换到当前设置
             cbFanAn.SelectedIndex = 1;
@@ -118,6 +119,7 @@ namespace IPModifer {
                 if(AllFanAn[i].Name == cbFanAn.Text) {
                     if(MessageBox.Show("[" + cbFanAn.Text + "]方案已存在，是否覆盖？", "方案管理", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.OK) {
                         AllFanAn[i] = info;
+                        SaveConfig();
                     }
                     return;
                 }
