@@ -14,6 +14,9 @@ namespace IPModifer {
         //IPv6
         private String ipv6;//ipv6地址
         private String prefixlength;//子网前缀长度
+        private String gatewayv6;//网关
+        private String dns1v6;//首选DNS
+        private String dns2v6;//备选DNS
 
 
 
@@ -113,6 +116,36 @@ namespace IPModifer {
 
             set {
                 prefixlength = value;
+            }
+        }
+
+        public string Gatewayv6 {
+            get {
+                return gatewayv6;
+            }
+
+            set {
+                gatewayv6 = value;
+            }
+        }
+
+        public string Dns1v6 {
+            get {
+                return dns1v6;
+            }
+
+            set {
+                dns1v6 = value;
+            }
+        }
+
+        public string Dns2v6 {
+            get {
+                return dns2v6;
+            }
+
+            set {
+                dns2v6 = value;
             }
         }
 

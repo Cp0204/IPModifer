@@ -36,9 +36,8 @@ namespace IPModifer {
             ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection moc = wmi.GetInstances();
             foreach(ManagementObject mo in moc) {
-                if(!(bool)mo["IPEnabled"])
-                    continue;
-                this.AllNIC.Add(mo["Caption"].ToString(), mo["SettingID"].ToString());
+                if((bool)mo["IPEnabled"])
+                    this.AllNIC.Add(mo["Caption"].ToString(), mo["SettingID"].ToString());
             }
         }
 
@@ -84,11 +83,11 @@ namespace IPModifer {
                     for(int i = 0; i < GatewayCount; i++) {
                         //判断ipv4|v6
                         if(ip.GatewayAddresses[i].Address.AddressFamily == AddressFamily.InterNetwork) {
-                            ntk.Gateway = ip.GatewayAddresses[i].Address.ToString();
                             Console.WriteLine("  v4-网关:" + ip.GatewayAddresses[i].Address.ToString());
+                            ntk.Gateway = ip.GatewayAddresses[i].Address.ToString();
                         } else if(ip.GatewayAddresses[i].Address.AddressFamily == AddressFamily.InterNetworkV6) {
                             Console.WriteLine("  v6-网关:" + ip.GatewayAddresses[i].Address.ToString());
-                            //TO DO
+                            ntk.Gatewayv6 = ip.GatewayAddresses[i].Address.ToString();
                         }
                     }
                 }
@@ -108,7 +107,11 @@ namespace IPModifer {
                             }
                         } else if(ip.DnsAddresses[i].AddressFamily == AddressFamily.InterNetworkV6) {
                             Console.WriteLine("  v6-DNS:" + ip.DnsAddresses[i].ToString());
-                            //TO DO
+                            if(ntk.Dns1v6 == null) {
+                                ntk.Dns1v6 = ip.DnsAddresses[i].ToString();
+                            } else {
+                                ntk.Dns2v6 = ip.DnsAddresses[i].ToString();
+                            }
                         }
                     }
 
@@ -188,6 +191,9 @@ namespace IPModifer {
             }
         }
 
+        /// <summary>
+        /// 设置网卡自动获取IP
+        /// </summary>
         public void setAutoNetwork(string SettingID) {
             ManagementClass wmi = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection moc = wmi.GetInstances();
