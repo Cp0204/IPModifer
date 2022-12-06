@@ -62,6 +62,7 @@ namespace IPModifer {
                 ntk.Id = adapter.Id;
                 ntk.Name = adapter.Name;
                 Console.WriteLine("网卡ID:" + ntk.Id);
+                Console.WriteLine("网卡NAME:" + ntk.Name);
 
                //获取以太网卡网络接口信息
                IPInterfaceProperties ip = adapter.GetIPProperties();
@@ -86,9 +87,19 @@ namespace IPModifer {
                     }
                 }
                 //获取默认网关
-                if (ip.GatewayAddresses.Count > 0){
-                    Console.WriteLine("默认网关:" + ip.GatewayAddresses[0].Address.ToString());   //默认网关
-                    ntk.Gateway = ip.GatewayAddresses[0].Address.ToString();
+                int GatewayCount = ip.GatewayAddresses.Count;
+                Console.WriteLine("网关地址：");
+                if (GatewayCount > 0){
+                    for(int i = 0; i < GatewayCount; i++) {
+                        //判断ipv4|v6
+                        if(ip.GatewayAddresses[i].Address.AddressFamily == AddressFamily.InterNetwork) {
+                            ntk.Gateway = ip.GatewayAddresses[i].Address.ToString();
+                            Console.WriteLine("  v4-网关:" + ip.GatewayAddresses[i].Address.ToString());
+                        }else if(ip.GatewayAddresses[i].Address.AddressFamily == AddressFamily.InterNetworkV6) {
+                            Console.WriteLine("  v6-网关:" + ip.GatewayAddresses[i].Address.ToString());
+                            //TO DO
+                        }
+                    }
                 }
                 //首选DNS与备用DNS
                 int DnsCount = ip.DnsAddresses.Count;
@@ -96,14 +107,17 @@ namespace IPModifer {
                 if (DnsCount > 0){
                     //其中第一个为首选DNS，第二个为备用的，余下的为所有DNS为DNS备用，按使用顺序排列
                     for (int i = 0; i < DnsCount; i++){
-                        Console.WriteLine("DNS" + i + ": " + ip.DnsAddresses[i].ToString());
-                        //取ipv4
-                        if (ip.DnsAddresses[i].ToString().IndexOf('.') > 0){
+                        //判断ipv4|v6
+                        if(ip.DnsAddresses[i].AddressFamily == AddressFamily.InterNetwork) {
+                            Console.WriteLine("  v4-DNS:" + ip.DnsAddresses[i].ToString());
                             if(ntk.Dns1 == null) {
                                 ntk.Dns1 = ip.DnsAddresses[i].ToString();
                             } else {
                                 ntk.Dns2 = ip.DnsAddresses[i].ToString();
                             }
+                        }else if(ip.DnsAddresses[i].AddressFamily == AddressFamily.InterNetworkV6) {
+                            Console.WriteLine("  v6-DNS:" + ip.DnsAddresses[i].ToString());
+                            //TO DO
                         }
                     }
 
